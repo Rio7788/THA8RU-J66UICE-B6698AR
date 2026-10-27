@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" href="images/logo001.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THARU Juice Bar | Menu & Order</title>
+<style>
+:root{--green:#174c37;--lime:#d9f36a;--cream:#fff9eb;--orange:#ff8a35;--ink:#19372b;--muted:#65766b;--page-bg:#fff9eb;--surface:#ffffff;--body-text:#19372b;--muted-text:#65766b;--border-color:#e9eddf;--header-bg:rgba(255,249,235,.93)}
+body.dark-mode{--page-bg:#101a15;--surface:#1b2921;--body-text:#edf5ee;--muted-text:#b1c1b5;--border-color:#34483b;--header-bg:rgba(16,26,21,.94);color-scheme:dark}
+body:not(.dark-mode){color-scheme:light}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,sans-serif;background:var(--page-bg);color:var(--body-text)}a{color:inherit;text-decoration:none}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+header{position:sticky;top:0;z-index:10;background:var(--header-bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-color)}.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:76px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.18rem}.logo-image{width:46px;height:46px;object-fit:contain;border-radius:10px}.navlinks{display:flex;align-items:center;gap:12px;color:var(--muted-text);font-size:.94rem;font-weight:650}
+.theme-toggle,.cart-toggle{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--border-color);border-radius:999px;padding:10px 13px;background:var(--surface);color:var(--body-text);font:inherit;font-size:.86rem;font-weight:800;cursor:pointer}
+.cart-badge{background:var(--orange);color:white;border-radius:999px;padding:2px 8px;font-size:.78rem;font-weight:800}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:999px;padding:13px 20px;font-weight:800;background:var(--green);color:white;cursor:pointer}.btn.light{background:var(--lime);color:var(--green)}
+
+section{padding:50px 0}.section-head{text-align:center;max-width:650px;margin:0 auto 30px}.section-head h2{margin:12px 0;font-size:clamp(2rem,4vw,3.2rem);color:var(--green)}.section-head p{color:var(--muted-text);line-height:1.7;margin:0}
+.tag{display:inline-block;background:#fff0e3;color:#a84d1a;border-radius:999px;padding:6px 10px;font-size:.78rem;font-weight:800}
+
+.filter-bar{display:flex;justify-content:center;gap:10px;margin-bottom:35px;flex-wrap:wrap}
+.filter-btn{padding:10px 20px;border-radius:999px;border:1px solid var(--border-color);background:var(--surface);color:var(--body-text);font-weight:800;font-size:.9rem;cursor:pointer;transition:all .2s}
+.filter-btn.active,.filter-btn:hover{background:var(--green);color:white;border-color:var(--green)}
+
+.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.menu-photo-wrap{height:190px;margin:-3px -3px 18px;overflow:hidden;border-radius:18px;background:#f1f7d9}.menu-photo{width:100%;height:100%;object-fit:cover}.menu-card{background:var(--surface);border:1px solid var(--border-color);border-radius:24px;padding:23px;transition:transform .2s}.menu-card:hover{transform:translateY(-5px)}
+.menu-card h3{margin:18px 0 7px;color:var(--green);font-size:1.2rem}.menu-card p{margin:0;color:var(--muted-text);line-height:1.6;font-size:.94rem;min-height:48px}
+.price-row{display:flex;align-items:center;justify-content:space-between;margin-top:20px}.price{font-size:1.2rem;font-weight:900;color:var(--green)}
+.card-actions{display:flex;align-items:center;gap:8px;margin-top:15px;width:100%;justify-content:space-between}
+.qty-control{display:inline-flex;align-items:center;border:1px solid var(--border-color);border-radius:999px;background:var(--page-bg);overflow:hidden}
+.qty-btn{border:0;background:none;color:var(--body-text);width:32px;height:32px;font-size:1.1rem;font-weight:bold;cursor:pointer;display:grid;place-items:center}
+.qty-val{padding:0 8px;font-weight:800;font-size:.9rem}
+.add-btn{padding:10px 16px;font-size:.84rem}
+
+footer{padding:28px 0;background:#103b2a;color:#d8e7dd;font-size:.9rem;margin-top:50px}.footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+
+body.dark-mode .section-head h2,body.dark-mode .menu-card h3,body.dark-mode .price{color:var(--lime)}
+body.dark-mode .menu-card{background:#1b2921;border-color:#34483b}
+body.dark-mode .filter-btn{background:#1b2921;border-color:#34483b;color:var(--body-text)}
+body.dark-mode .filter-btn.active{background:var(--green);color:var(--lime)}
+@media(max-width:800px){.menu-grid{grid-template-columns:repeat(2,1fr)}.navlinks a:not(.cart-toggle){display:none}}
+@media(max-width:520px){.menu-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <img class="logo-image" src="images/logo001.png" alt="Logo">
+      <span>THARU <span style="color:#ff8a35">JUICE BAR</span></span>
+    </a>
+    <nav class="navlinks">
+      <a href="index.html">Home</a>
+      <a href="menu.html" style="color:var(--green); font-weight:bold;">Menu & Order</a>
+      <a href="index.html#about">Our Story</a>
+      <a href="index.html#contact">Contact</a>
+      <button class="theme-toggle" id="themeToggle" type="button">🌙</button>
+      <a class="cart-toggle" href="cart.html">🛒 Cart <span class="cart-badge" id="cartBadge">0</span></a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="tag">OUR MENU</span>
+        <h2>Pick your happy sip & snack</h2>
+        <p>Filter through our fresh juices or delicious food items below!</p>
+      </div>
+
+      <!-- Filter Buttons -->
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All Items</button>
+        <button class="filter-btn" data-filter="juice">Juices & Smoothies</button>
+        <button class="filter-btn" data-filter="food">Food, Sandwiches & Cakes</button>
+      </div>
+
+      <div class="menu-grid" id="fullMenuGrid">
+        
+        <!-- JUICE 1 -->
+        <article class="menu-card" data-category="juice" data-id="1" data-name="Orange Sunrise" data-price="450">
+          <div class="menu-photo-wrap"><img class="menu-photo" src="https://images.pexels.com/photos/5946599/pexels-photo-5946599.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Orange"></div>
+          <h3>Orange Sunrise</h3>
+          <p>Fresh orange flavour with a bright, citrusy finish.</p>
+          <div class="price-row"><span class="price">LKR 450</span></div>
+          <div class="card-actions">
+            <div class="qty-control">
+              <button class="qty-btn minus-btn">-</button>
+              <span class="qty-val">1</span>
+              <button class="qty-btn plus-btn">+</button>
+            </div>
+            <button class="btn add-btn add-to-cart-btn">Add to Cart</button>
+          </div>
+        </article>
+
+        <!-- JUICE 2 -->
+        <article class="menu-card" data-category="juice" data-id="2" data-name="Watermelon Cooler" data-price="400">
+          <div class="menu-photo-wrap"><img class="menu-photo" src="https://images.pexels.com/photos/11009203/pexels-photo-11009203.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Watermelon"></div>
+          <h3>Watermelon Cooler</h3>
+          <p>Light, juicy and wonderfully refreshing.</p>
+          <div class="price-row"><span class="price">LKR 400</span></div>
+          <div class="card-actions">
+            <div class="qty-control">
+              <button class="qty-btn minus-btn">-</button>
+              <span class="qty-val">1</span>
+              <button class="qty-btn plus-btn">+</button>
+            </div>
+            <button class="btn add-btn add-to-cart-btn">Add to Cart</button>
+          </div>
+        </article>
+
+        <!-- JUICE 3 -->
+        <article class="menu-card" data-category="juice" data-id="3" data-name="Mango Magic" data-price="500">
+          <div class="menu-photo-wrap"><img class="menu-photo" src="https://images.pexels.com/photos/8813997/pexels-photo-8813997.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Mango"></div>
+          <h3>Mango Magic</h3>
+          <p>A smooth tropical mango favourite.</p>
+          <div class="price-row"><span class="price">LKR 500</span></div>
+          <div class="card-actions">
+            <div class="qty-control">
+              <button class="qty-btn minus-btn">-</button>
+              <span class="qty-val">1</span>
+              <button class="qty-btn plus-btn">+</button>
+            </div>
+            <button class="btn add-btn add-to-cart-btn">Add to Cart</button>
+          </div>
+        </article>
+
+        <!-- JUICE 4 -->
+        <article class="menu-card" data-category="juice" data-id="4" data-name="Berry Smoothie" data-price="600">
+          <div class="menu-photo-wrap"><img class="menu-photo" src="https://images.pexels.com/photos/775030/pexels-photo-775030.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Berry"></div>
+          <h3>Berry Smoothie</h3>
+          <p>A creamy, fruity blend for a treat-yourself moment.</p>
+          <div class="price-row"><span class="price">LKR 600</span></div>
+          <div class="card-actions">
+            <div class="qty-control">
+              <button class="qty-btn minus-btn">-</button>
+              <span class="qty-val">1</span>
+              <button class="qty-btn plus-btn">+</button>
+            </div>
+            <button class="btn add-btn add-to-cart-btn">Add to Cart</button>
+          </div>
+        </article>
+
+        <!-- FOOD 1 -->
+        <article class="menu-card" data-category="food" data-id="5" data-name="Crispy Chicken Sandwich" data-price="650">
+          <div class="menu-photo-wrap"><img class="menu-photo" src="https://images.pexels.com/photos/1603901/pexels-photo-1603901.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Sandwich"></div>
+          <h3>Crispy Chicken Sandwich</h3>
+          <p>Loaded with fresh veggies and tender spiced chicken.</p>
+          <div class="price-row"><span class="price">LKR 650</span></div>
+          <div class="card-actions">
+            <div class="qty-control">
+              <button class="qty-btn minus-btn">-</button>
+              <span class="qty-val">1</span>
+              <button class="qty-btn plus-btn">+</button>
+            </div>
+            <button class="btn add-btn add-to-cart-btn">Add to Cart</button>
+          </div>
+        </article>
+
+        <!-- FOOD 2 -->
+        <article class="menu-card" data-category="food" data-id="6" data-name="Cheese & Veggie Sandwich" data-price="500">
+          <div class="menu-photo-wrap"><img class="menu-photo" src="https://images.pexels.com/photos/1209029/pexels-photo-1209029.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Veggie Sandwich"></div>
+          <h3>Cheese & Veggie Sandwich</h3>
+          <p>Fresh garden vegetables with melted cheese.</p>
+          <div class="price-row"><span class="price">LKR 500</span></div>
+          <div class="card-actions">
+            <div class="qty-control">
+              <button class="qty-btn minus-btn">-</button>
+              <span class="qty-val">1</span>
+              <button class="qty-btn plus-btn">+</button>
+            </div>
+            <button class="btn add-btn add-to-cart-btn">Add to Cart</button>
+          </div>
+        </article>
+
+        <!-- FOOD 3 -->
+        <article class="menu-card" data-category="food" data-id="7" data-name="Choco-Chip Cookies (Pack of 3)" data-price="350">
+          <div class="menu-photo-wrap"><img class="menu-photo" src="https://images.pexels.com/photos/230325/pexels-photo-230325.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Cookies"></div>
+          <h3>Choco-Chip Cookies</h3>
+          <p>Freshly baked crunchy cookies loaded with rich chocolate chips.</p>
+          <div class="price-row"><span class="price">LKR 350</span></div>
+          <div class="card-actions">
+            <div class="qty-control">
+              <button class="qty-btn minus-btn">-</button>
+              <span class="qty-val">1</span>
+              <button class="qty-btn plus-btn">+</button>
+            </div>
+            <button class="btn add-btn add-to-cart-btn">Add to Cart</button>
+          </div>
+        </article>
+
+        <!-- FOOD 4 -->
+        <article class="menu-card" data-category="food" data-id="8" data-name="Chocolate Fudge Cake Slice" data-price="450">
+          <div class="menu-photo-wrap"><img class="menu-photo" src="https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Cake"></div>
+          <h3>Chocolate Fudge Cake Slice</h3>
+          <p>Soft, rich and decadent chocolate cake slice.</p>
+          <div class="price-row"><span class="price">LKR 450</span></div>
+          <div class="card-actions">
+            <div class="qty-control">
+              <button class="qty-btn minus-btn">-</button>
+              <span class="qty-val">1</span>
+              <button class="qty-btn plus-btn">+</button>
+            </div>
+            <button class="btn add-btn add-to-cart-btn">Add to Cart</button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <div><strong>🍊 THARU Juice Bar</strong><br>Fresh, fruity & feel-good.</div>
+    <div>© <span id="year"></span> THARU Juice Bar</div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+const themeToggle = document.getElementById('themeToggle');
+function applyTheme(isDark){
+  document.body.classList.toggle('dark-mode', isDark);
+  themeToggle.textContent = isDark ? '☀️' : '🌙';
+}
+let savedTheme = localStorage.getItem('tharu-theme') || 'light';
+applyTheme(savedTheme === 'dark');
+themeToggle.addEventListener('click', () => {
+  const isDark = !document.body.classList.contains('dark-mode');
+  applyTheme(isDark);
+  localStorage.setItem('tharu-theme', isDark ? 'dark' : 'light');
+});
+
+// Filter Functionality
+const filterBtns = document.querySelectorAll('.filter-btn');
+const menuCards = document.querySelectorAll('#fullMenuGrid .menu-card');
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    menuCards.forEach(card => {
+      if(filter === 'all' || card.dataset.category === filter){
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+});
+
+// Cart handling via LocalStorage
+function updateBadge(){
+  let cart = JSON.parse(localStorage.getItem('tharu_cart')) || [];
+  let total = cart.reduce((sum, item) => sum + item.qty, 0);
+  document.getElementById('cartBadge').textContent = total;
+}
+updateBadge();
+
+document.querySelectorAll('.menu-card').forEach(card => {
+  const minusBtn = card.querySelector('.minus-btn');
+  const plusBtn = card.querySelector('.plus-btn');
+  const qtyVal = card.querySelector('.qty-val');
+  const addBtn = card.querySelector('.add-to-cart-btn');
+
+  let currentQty = 1;
+  minusBtn.addEventListener('click', () => {
+    if(currentQty > 1) { currentQty--; qtyVal.textContent = currentQty; }
+  });
+  plusBtn.addEventListener('click', () => {
+    currentQty++; qtyVal.textContent = currentQty;
+  });
+
+  addBtn.addEventListener('click', () => {
+    const id = card.dataset.id;
+    const name = card.querySelector('h3').textContent;
+    const priceText = card.querySelector('.price').textContent;
+    const price = parseInt(priceText.replace(/[^0-9]/g, ''));
+
+    let cart = JSON.parse(localStorage.getItem('tharu_cart')) || [];
+    const existingIndex = cart.findIndex(item => item.id === id);
+    if(existingIndex > -1){
+      cart[existingIndex].qty += currentQty;
+    } else {
+      cart.push({ id, name, price, qty: currentQty });
+    }
+    localStorage.setItem('tharu_cart', JSON.stringify(cart));
+
+    currentQty = 1;
+    qtyVal.textContent = 1;
+    updateBadge();
+
+    addBtn.textContent = 'Added! ✓';
+    setTimeout(() => { addBtn.textContent = 'Add to Cart'; }, 1200);
+  });
+});
+</script>
+</body>
+</html>

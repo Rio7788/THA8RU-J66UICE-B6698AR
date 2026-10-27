@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" href="images/logo001.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THARU Juice Bar | Home</title>
+<style>
+:root{--green:#174c37;--lime:#d9f36a;--cream:#fff9eb;--orange:#ff8a35;--ink:#19372b;--muted:#65766b;--page-bg:#fff9eb;--surface:#ffffff;--body-text:#19372b;--muted-text:#65766b;--border-color:#e9eddf;--header-bg:rgba(255,249,235,.93)}
+body.dark-mode{--page-bg:#101a15;--surface:#1b2921;--body-text:#edf5ee;--muted-text:#b1c1b5;--border-color:#34483b;--header-bg:rgba(16,26,21,.94);color-scheme:dark}
+body:not(.dark-mode){color-scheme:light}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,sans-serif;background:var(--page-bg);color:var(--body-text)}a{color:inherit;text-decoration:none}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+header{position:sticky;top:0;z-index:10;background:var(--header-bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-color)}.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:76px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.18rem}.logo-image{width:46px;height:46px;object-fit:contain;border-radius:10px}.navlinks{display:flex;align-items:center;gap:12px;color:var(--muted-text);font-size:.94rem;font-weight:650}
+.theme-toggle,.cart-toggle{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--border-color);border-radius:999px;padding:10px 13px;background:var(--surface);color:var(--body-text);font:inherit;font-size:.86rem;font-weight:800;cursor:pointer}
+.cart-badge{background:var(--orange);color:white;border-radius:999px;padding:2px 8px;font-size:.78rem;font-weight:800}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:999px;padding:13px 20px;font-weight:800;background:var(--green);color:white;cursor:pointer}.btn.light{background:var(--lime);color:var(--green)}
+.hero{padding:70px 0 76px}.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;align-items:center;gap:42px}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--green);background:#edf6ce;border-radius:999px;padding:8px 13px;font-size:.83rem;font-weight:800}h1{margin:20px 0;font-size:clamp(2.8rem,6vw,5rem);line-height:.96;color:var(--green)}h1 span{color:var(--orange)}.hero p{max-width:510px;color:var(--muted-text);font-size:1.1rem;line-height:1.75}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:27px}
+.hero-art{min-height:420px;position:relative;display:grid;place-items:center}.hero-photo{width:min(100%,440px);height:420px;object-fit:cover;border-radius:38% 38% 28px 28px;box-shadow:0 24px 60px #19372b26}
+.gallery-section{padding:60px 0;background:var(--surface);border-top:1px solid var(--border-color);border-bottom:1px solid var(--border-color)}.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:30px}.gallery-card{height:260px;border-radius:20px;overflow:hidden}.gallery-card img{width:100%;height:100%;object-fit:cover}
+section{padding:76px 0}.section-head{text-align:center;max-width:650px;margin:0 auto 36px}.section-head h2{margin:12px 0;font-size:clamp(2rem,4vw,3.2rem);color:var(--green)}.section-head p{color:var(--muted-text);line-height:1.7;margin:0}
+.about{background:var(--green);color:white}.about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:55px;align-items:center}.about-visual{min-height:300px;border-radius:30px;background:var(--lime);display:grid;place-items:center;overflow:hidden}.about-photo{width:100%;height:100%;object-fit:cover}.perks{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.perk{background:#ffffff15;border:1px solid #ffffff24;padding:10px 13px;border-radius:999px;font-size:.9rem}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}.contact-box{background:var(--surface);border:1px solid var(--border-color);border-radius:26px;padding:28px}.contact-box h3{color:var(--green);margin-top:0}.contact-item{padding:13px 0;border-bottom:1px solid var(--border-color)}
+footer{padding:28px 0;background:#103b2a;color:#d8e7dd;font-size:.9rem}.footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}.tag{display:inline-block;background:#fff0e3;color:#a84d1a;border-radius:999px;padding:6px 10px;font-size:.78rem;font-weight:800}
+body.dark-mode .hero h1,body.dark-mode .section-head h2,body.dark-mode .contact-box h3,body.dark-mode .contact-item strong{color:var(--lime)}
+@media(max-width:800px){.hero-grid,.about-grid,.contact-grid,.gallery-grid{grid-template-columns:1fr}.navlinks a:not(.cart-toggle){display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <img class="logo-image" src="images/logo001.png" alt="Logo">
+      <span>THARU <span style="color:#ff8a35">JUICE BAR</span></span>
+    </a>
+    <nav class="navlinks">
+      <a href="index.html" style="color:var(--green); font-weight:bold;">Home</a>
+      <a href="menu.html">Menu & Order</a>
+      <a href="#about">Our Story</a>
+      <a href="#contact">Contact</a>
+      <button class="theme-toggle" id="themeToggle" type="button">🌙</button>
+      <a class="cart-toggle" href="cart.html">🛒 Cart <span class="cart-badge" id="cartBadge">0</span></a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">☀️ Freshly made • Feel-good sips</span>
+        <h1>Fresh fruit.<br><span>Happy mood.</span></h1>
+        <p>Brighten your day with refreshing fruit juices, smoothies, sandwiches and treats, made fresh and served with sunshine.</p>
+        <div class="hero-actions">
+          <a class="btn" href="menu.html">Explore Menu & Order ↗</a>
+          <a class="btn light" href="#contact">Find Us</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <img class="hero-photo" src="https://images.pexels.com/photos/10153721/pexels-photo-10153721.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1000" alt="Juice">
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery-section">
+    <div class="wrap">
+      <div class="section-head" style="margin-bottom:20px;">
+        <span class="tag">OUR SHOP & VIBE</span>
+        <h2>A glimpse inside THARU Juice Bar</h2>
+        <p>Real fresh ingredients, cozy vibes and handcrafted refreshments.</p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-card"><img src="https://images.pexels.com/photos/158053/fresh-juice-fruit-fresh-fruit-158053.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Shop"></div>
+        <div class="gallery-card"><img src="https://images.pexels.com/photos/1337825/pexels-photo-1337825.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Smoothies"></div>
+        <div class="gallery-card"><img src="https://images.pexels.com/photos/2144200/pexels-photo-2144200.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Snacks"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="wrap about-grid">
+      <div class="about-visual">
+        <img class="about-photo" src="https://images.pexels.com/photos/10153721/pexels-photo-10153721.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1000" alt="About">
+      </div>
+      <div>
+        <span class="eyebrow">A LITTLE ABOUT US</span>
+        <h2>Good fruit.<br>Good people.<br>Good days.</h2>
+        <p>At THARU Juice Bar, we believe a simple fresh drink and a tasty snack can make your day brighter.</p>
+        <div class="perks">
+          <span class="perk">🍊 Fresh flavour</span>
+          <span class="perk">🥪 Delicious Sandwiches</span>
+          <span class="perk">🍰 Cookies & Cake</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="tag">COME SAY HI</span>
+        <h2>Let's make it a juicy day</h2>
+        <p>Contact us to check today's flavours, availability and prices.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-box">
+          <h3>Visit THARU Juice Bar</h3>
+          <div class="contact-item"><strong>📍 Shop location</strong><span>Location details coming soon</span></div>
+          <div class="contact-item"><strong>📞 Phone / WhatsApp</strong><a href="https://wa.me/94789280918" target="_blank">078 928 0918</a></div>
+        </div>
+        <div class="contact-box">
+          <h3>Ready for a refreshing drink?</h3>
+          <p>Send us a WhatsApp message to ask about our juices and smoothies or to place an order.</p>
+          <a class="btn" href="https://wa.me/94789280918?text=Hi%20THARU%20Juice%20Bar!" target="_blank">Message on WhatsApp ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <div><strong>🍊 THARU Juice Bar</strong><br>Fresh, fruity & feel-good.</div>
+    <div>© <span id="year"></span> THARU Juice Bar</div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+const themeToggle = document.getElementById('themeToggle');
+function applyTheme(isDark){
+  document.body.classList.toggle('dark-mode', isDark);
+  themeToggle.textContent = isDark ? '☀️' : '🌙';
+}
+let savedTheme = localStorage.getItem('tharu-theme') || 'light';
+applyTheme(savedTheme === 'dark');
+themeToggle.addEventListener('click', () => {
+  const isDark = !document.body.classList.contains('dark-mode');
+  applyTheme(isDark);
+  localStorage.setItem('tharu-theme', isDark ? 'dark' : 'light');
+});
+
+// Update Cart Badge Count
+function updateBadge(){
+  let cart = JSON.parse(localStorage.getItem('tharu_cart')) || [];
+  let total = cart.reduce((sum, item) => sum + item.qty, 0);
+  document.getElementById('cartBadge').textContent = total;
+}
+updateBadge();
+</script>
+</body>
+</html>
