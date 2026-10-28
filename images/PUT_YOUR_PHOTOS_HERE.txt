@@ -1,3 +1,0 @@
-Place your own image files in this folder.
-Examples: logo.png, hero-juice.jpg, orange-juice.jpg, mango-smoothie.jpg.
-Then update the related img src in index.html by finding comments like LOGO HERE or PHOTO HERE.
