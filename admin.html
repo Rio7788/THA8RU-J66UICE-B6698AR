@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/png" href="images/logo001.png"><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=Noto+Sans+Sinhala:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"><script>document.documentElement.dataset.theme=localStorage.tharu_theme||"light"</script><title>Admin | THARU Juice Bar</title></head>
+<body><div id="hdr"></div>
+<main class="wrap">
+<section id="login" class="clay narrow"><h2>Admin login</h2><form id="lf"><label>Email<input type="email" id="em" required autocomplete="username"></label><label>Password<input type="password" id="pw" required autocomplete="current-password"></label><button class="btn" style="width:100%">Log in</button></form></section>
+<div id="panel" hidden>
+<section><div class="clay"><div class="row"><h2 style="margin:0">Shop status</h2><label class="row" style="gap:12px"><span id="ost">Open</span><input type="checkbox" class="sw" id="sw" aria-label="Shop open"></label></div>
+<form id="sf" style="margin-top:18px"><label>Announcement (English)<input id="ae" placeholder="e.g. Free cup of ice with every order"></label><label>Announcement (Sinhala)<input id="as"></label><button class="btn">Save announcement</button></form></div></section>
+<section><div class="clay"><h2 id="ft">Add menu item</h2><form id="mf"><input type="hidden" id="mid">
+<label>Name (English)<input id="ne" required></label><label>Name (Sinhala)<input id="ns" required></label>
+<label>Price (Rs.)<input id="pr" type="number" min="0" step="1" required inputmode="numeric"></label>
+<label>Category<select id="ct"><option value="juice">Juices</option><option value="smoothie">Smoothies</option><option value="shake">Shakes</option><option value="other">Others</option></select></label>
+<label>Image URL (optional)<input id="im" type="url" placeholder="https://..."></label>
+<label class="row" style="justify-content:flex-start;gap:14px;margin-bottom:16px"><input type="checkbox" class="sw" id="is" checked><span>In stock</span></label>
+<div class="acts" style="margin-top:0"><button class="btn">Save item</button><button type="button" class="btn g" id="rs">Clear form</button></div></form></div></section>
+<section><h2>Menu items</h2><div id="al" class="grid"></div></section>
+<section><button class="btn g" id="out">Log out</button></section></div>
+</main>
+<script type="module">
+import {FS,AU,auth,db,configured,mountHeader,toast} from './js/app.js';
+mountHeader('admin');
+const $=id=>document.getElementById(id);let started=0,items=[];
+if(!configured)$('login').innerHTML='<p>Add your Firebase config to js/firebase-config.js first.</p>';
+else{
+  AU.onAuthStateChanged(auth,u=>{$('login').hidden=!!u;$('panel').hidden=!u;if(u&&!started){started=1;start()}});
+  $('lf').onsubmit=e=>{e.preventDefault();AU.signInWithEmailAndPassword(auth,$('em').value,$('pw').value).catch(()=>toast('Wrong email or password'))};
+  $('out').onclick=()=>AU.signOut(auth);
+}
+function start(){
+  const sv=d=>FS.setDoc(FS.doc(db,'settings','shop'),d,{merge:true}).then(()=>toast('Saved')).catch(()=>toast('Could not save. Check you are logged in as the admin.'));
+  FS.onSnapshot(FS.doc(db,'settings','shop'),s=>{const d=s.data()||{};$('sw').checked=d.open!==false;$('ost').textContent=d.open!==false?'Open':'Closed';$('ae').value=d.annEn||'';$('as').value=d.annSi||''});
+  $('sw').onchange=()=>sv({open:$('sw').checked});
+  $('sf').onsubmit=e=>{e.preventDefault();sv({annEn:$('ae').value.trim(),annSi:$('as').value.trim()})};
+  FS.onSnapshot(FS.collection(db,'menu'),s=>{items=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.nameEn||'').localeCompare(b.nameEn||''));draw()});
+  $('mf').onsubmit=async e=>{e.preventDefault();
+    const d={nameEn:$('ne').value.trim(),nameSi:$('ns').value.trim(),price:Number($('pr').value),category:$('ct').value,img:$('im').value.trim(),inStock:$('is').checked};
+    try{$('mid').value?await FS.setDoc(FS.doc(db,'menu',$('mid').value),d):await FS.addDoc(FS.collection(db,'menu'),d);toast('Item saved');reset()}catch{toast('Could not save the item')}};
+  $('rs').onclick=reset;
+  $('al').onclick=async e=>{const b=e.target.closest('button');if(!b)return;const i=items.find(x=>x.id===b.dataset.id);if(!i)return;
+    try{if(b.dataset.a==='del'){if(confirm('Delete '+i.nameEn+'?'))await FS.deleteDoc(FS.doc(db,'menu',i.id))}
+    else if(b.dataset.a==='stk')await FS.updateDoc(FS.doc(db,'menu',i.id),{inStock:i.inStock===false});
+    else{$('mid').value=i.id;$('ne').value=i.nameEn||'';$('ns').value=i.nameSi||'';$('pr').value=i.price;$('ct').value=i.category||'other';$('im').value=i.img||'';$('is').checked=i.inStock!==false;$('ft').textContent='Edit menu item';$('mf').scrollIntoView({behavior:'smooth'})}}
+    catch{toast('Action failed')}};
+}
+function reset(){$('mf').reset();$('mid').value='';$('ft').textContent='Add menu item'}
+function draw(){
+  $('al').innerHTML=items.length?items.map(i=>`<div class="clay"><div class="thumb"><img src="${i.img||'images/logo.svg'}" alt="" onerror="this.onerror=null;this.src='images/logo.svg'"><div><b>${(i.nameEn||'').replace(/</g,'&lt;')}</b><br><span class="mut">${(i.nameSi||'').replace(/</g,'&lt;')}</span><br>Rs. ${i.price} &middot; ${i.category||''}</div></div><div class="acts" style="margin-top:14px"><button class="btn s g" data-a="edit" data-id="${i.id}">Edit</button><button class="btn s ${i.inStock===false?'l':''}" data-a="stk" data-id="${i.id}">${i.inStock===false?'Mark in stock':'Mark out of stock'}</button><button class="btn s r" data-a="del" data-id="${i.id}">Delete</button></div></div>`).join(''):'<p class="mut">No items yet. Add your first one above.</p>';
+}
+</script></body></html>
