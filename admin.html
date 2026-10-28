@@ -21,23 +21,30 @@
     <div class="nav-links" id="mainNav"><a href="index.html" data-i18n="navHome">Home</a><a href="menu.html" data-i18n="navMenu">Our Menu</a><a href="index.html#about" data-i18n="navAbout">About us</a><a href="index.html#reviews" data-i18n="navReviews">Reviews</a></div>
     <div class="nav-actions"><button class="lang-button" id="languageToggle" type="button" aria-label="Switch language">සිංහල</button><button class="icon-button" id="themeToggle" type="button" aria-label="Toggle theme" title="Toggle theme">☾</button><a class="icon-button cart-nav" href="cart.html" aria-label="Shopping cart">🛒<span class="cart-count" data-cart-count>0</span></a><button class="icon-button mobile-menu-button" id="mobileMenuToggle" type="button" aria-label="Open navigation" aria-expanded="false">☰</button></div>
   </nav></div></header>
-  <main id="main" class="admin-page"><section class="page-hero"><div class="container"><div class="eyebrow"><span class="dot"></span><span data-i18n="adminEyebrow">Shop owner workspace</span></div><h1 data-i18n="adminTitle">Small shop. Easy controls.</h1><p class="lead" data-i18n="adminLead">Update your menu, switch shop status, and share today's special — right from your phone.</p></div></section>
+  
+  <main id="main" class="admin-page">
+    <section class="page-hero"><div class="container"><div class="eyebrow"><span class="dot"></span><span data-i18n="adminEyebrow">Shop owner workspace</span></div><h1 data-i18n="adminTitle">Small shop. Easy controls.</h1><p class="lead" data-i18n="adminLead">Update your menu, switch shop status, and share today's special — right from your phone.</p></div></section>
     <div class="container">
+      <!-- Admin Login Panel -->
       <section class="panel admin-login" id="adminLoginPanel">
         <h2 data-i18n="secureAdminTitle">Secure admin sign-in</h2>
         <div class="admin-warning" data-i18n="adminSecurityNote">Admin access is protected with Firebase Authentication and Firestore rules. A hidden URL or JavaScript password prompt would not protect your menu data.</div>
         <div class="alert error" id="adminSetupWarning" hidden data-i18n="firebaseNotConfigured">Firebase is not configured yet. Follow README.md to connect your Firebase project first.</div>
         <form id="adminLoginForm">
-          <div class="field"><label for="adminEmail" data-i18n="emailLabel">Admin email</label><input id="adminEmail" type="email" style="pointer-events: auto; position: relative; z-index: 10;" autocomplete="username" required maxlength="254" placeholder="owner@example.com"></div>
-          <div class="field"><label for="adminPassword" data-i18n="passwordLabel">Password</label><input id="adminPassword" type="password" style="pointer-events: auto; position: relative; z-index: 10;" autocomplete="current-password" required maxlength="128" placeholder="••••••••"></div>
+          <div class="field"><label for="adminEmail" data-i18n="emailLabel">Admin email</label><input id="adminEmail" type="email" autocomplete="username" required maxlength="254" placeholder="owner@example.com"></div>
+          <div class="field"><label for="adminPassword" data-i18n="passwordLabel">Password</label><input id="adminPassword" type="password" autocomplete="current-password" required maxlength="128" placeholder="••••••••"></div>
           <button class="button button-primary" type="submit" style="width:100%" data-i18n="signIn">Sign in securely</button>
         </form>
         <div class="alert" id="adminAuthMessage" hidden role="status"></div>
         <p class="form-note" data-i18n="adminCreateNote">Create the admin user from Firebase Console → Authentication. This page intentionally has no public sign-up button.</p>
       </section>
 
+      <!-- Admin Dashboard (Initially Hidden) -->
       <section id="adminDashboard" hidden>
-        <div class="admin-toolbar"><div><h2 data-i18n="dashboardTitle">Shop dashboard</h2><p class="admin-auth-state" id="adminIdentity"></p></div><button class="button button-outline button-small" id="adminSignOut" type="button" data-i18n="signOut">Sign out</button></div>
+        <div class="admin-toolbar">
+          <div><h2 data-i18n="dashboardTitle">Shop dashboard</h2><p class="admin-auth-state" id="adminIdentity"></p></div>
+          <button class="button button-outline button-small" id="adminSignOut" type="button" data-i18n="signOut">Sign out</button>
+        </div>
         <div class="admin-layout">
           <div>
             <section class="panel" style="margin-bottom:18px">
@@ -66,7 +73,10 @@
             </section>
           </div>
           <section class="panel">
-            <div class="admin-toolbar"><div><h2 data-i18n="currentMenu">Current menu</h2><p class="admin-auth-state" data-i18n="currentMenuHint">Edits sync to the customer menu automatically.</p></div><span class="status-pill" id="adminItemCount">0 items</span></div>
+            <div class="admin-toolbar">
+              <div><h2 data-i18n="currentMenu">Current menu</h2><p class="admin-auth-state" data-i18n="currentMenuHint">Edits sync to the customer menu automatically.</p></div>
+              <span class="status-pill" id="adminItemCount">0 items</span>
+            </div>
             <div id="adminMenuList"><p class="admin-auth-state" data-i18n="menuLoadingBig">Loading menu items…</p></div>
           </section>
         </div>
@@ -74,71 +84,13 @@
       </section>
     </div>
   </main>
-  <footer class="site-footer"><div class="container footer-inner"><a class="brand" href="index.html"><span class="brand-mark">🍊</span><span class="brand-copy">THARU JUICE BAR<small data-i18n="brandTag">Fresh • Fruity • Feel-good</small></span></a><span>© <span id="yearNow"></span> THARU Juice Bar.</span><div class="footer-links"><a href="index.html" data-i18n="navHome">Home</a><a href="menu.html" data-i18n="navMenu">Our Menu</a></div></div></footer>
-  <div class="mobile-bottom-bar"><a href="index.html"><span>⌂</span><span data-i18n="navHome">Home</span></a><a href="menu.html"><span>🥤</span><span data-i18n="navMenu">Our Menu</span></a><a href="cart.html"><span>🛒</span><span data-i18n="navCart">Cart</span></a></div><div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const emailInput = document.getElementById("adminEmail");
-      const passwordInput = document.getElementById("adminPassword");
-      const loginForm = document.getElementById("adminLoginForm");
-      const loginPanel = document.getElementById("adminLoginPanel");
-      const dashboard = document.getElementById("adminDashboard");
-      const authMessage = document.getElementById("adminAuthMessage");
-      const signOutBtn = document.getElementById("adminSignOut");
+  <footer class="site-header site-footer"><div class="container footer-inner"><a class="brand" href="index.html"><span class="brand-mark">🍊</span><span class="brand-copy">THARU JUICE BAR<small data-i18n="brandTag">Fresh • Fruity • Feel-good</small></span></a><span>© <span id="yearNow"></span> THARU Juice Bar.</span><div class="footer-links"><a href="index.html" data-i18n="navHome">Home</a><a href="menu.html" data-i18n="navMenu">Our Menu</a></div></div></footer>
+  
+  <div class="mobile-bottom-bar"><a href="index.html"><span>⌂</span><span data-i18n="navHome">Home</span></a><a href="menu.html"><span>🥤</span><span data-i18n="navMenu">Our Menu</span></a><a href="cart.html"><span>🛒</span><span data-i18n="navCart">Cart</span></a></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-      if (emailInput) emailInput.removeAttribute("disabled");
-      if (passwordInput) passwordInput.removeAttribute("disabled");
-
-      firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-          if (loginPanel) loginPanel.hidden = true;
-          if (dashboard) dashboard.hidden = false;
-          const adminIdentity = document.getElementById("adminIdentity");
-          if (adminIdentity) adminIdentity.textContent = "Logged in as: " + user.email;
-        } else {
-          if (loginPanel) loginPanel.hidden = false;
-          if (dashboard) dashboard.hidden = true;
-        }
-      });
-
-      if (loginForm) {
-        loginForm.addEventListener("submit", function (e) {
-          e.preventDefault();
-          const email = emailInput.value.trim();
-          const password = passwordInput.value;
-
-          if (authMessage) {
-            authMessage.hidden = false;
-            authMessage.textContent = "Signing in...";
-            authMessage.className = "alert";
-          }
-
-          firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(() => {
-              if (authMessage) {
-                authMessage.textContent = "Successfully logged in!";
-                authMessage.className = "alert success";
-              }
-            })
-            .catch((error) => {
-              if (authMessage) {
-                authMessage.hidden = false;
-                authMessage.textContent = "Login failed: " + error.message;
-                authMessage.className = "alert error";
-              }
-            });
-        });
-      }
-
-      if (signOutBtn) {
-        signOutBtn.addEventListener("click", function () {
-          firebase.auth().signOut().then(() => {
-            window.location.reload();
-          });
-        });
-      }
-    });
-  </script>
+  <!-- app.js එක නිවැරදිව සම්බන්ධ කිරීම -->
+  <script defer src="assets/app.js"></script>
 </body>
 </html>
