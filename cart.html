@@ -1,0 +1,11 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>THARU Juice Bar</title><link rel="icon" type="image/png" href="images/logo001.png"><link rel="stylesheet" href="css/style.css"></head><body><header id="hd"></header><div id="bar" hidden></div><main>
+<section><h2 data-i="cart_h"></h2><div id="lines"></div><p class="clay pad"><span data-i="total"></span>: <b id="tot"></b></p><br>
+<form id="f" class="clay pad"><label><span data-i="nm"></span><input id="nm" required autocomplete="name"></label><label><span data-i="ph"></span><input id="ph" type="tel" required autocomplete="tel"></label><label><span data-i="nt"></span><textarea id="nt" rows="3"></textarea></label><button class="btn" data-i="place"></button></form></section>
+</main><footer id="ft"></footer><script type="module">
+import{$,t,pick,fmt,cart,save,shop}from"./js/app.js";
+const sum=k=>k.reduce((a,i)=>a+i.price*i.qty,0);
+function draw(){const k=cart();$("#lines").innerHTML=k.length?k.map((i,n)=>`<div class="clay line"><b>${pick(i,"name")}</b><span>${fmt(i.price*i.qty)}</span><div><button class="clay pill" data-q="${n}:-1" aria-label="-">−</button><b>${i.qty}</b><button class="clay pill" data-q="${n}:1" aria-label="+">+</button><button class="clay pill" data-q="${n}:0">${t("rm")}</button></div></div>`).join(""):`<p class="clay pad">${t("empty")}</p>`;$("#tot").textContent=fmt(sum(k));$("#f").hidden=!k.length}
+document.onclick=e=>{const b=e.target.closest("[data-q]");if(!b)return;const[n,d]=b.dataset.q.split(":").map(Number),k=cart();if(d==0||k[n].qty+d<1)k.splice(n,1);else k[n].qty+=d;save(k);draw()};
+$("#f").onsubmit=e=>{e.preventDefault();if(shop.open===false)return alert(t("closedmsg"));const k=cart(),m=["THARU Juice Bar - "+t("neworder"),t("nm")+": "+$("#nm").value,t("ph")+": "+$("#ph").value,"",...k.map(i=>"- "+i.qty+" x "+pick(i,"name")+" = "+fmt(i.price*i.qty)),"",t("total")+": "+fmt(sum(k))];if($("#nt").value)m.push(t("nt")+": "+$("#nt").value);open("https://wa.me/94789280918?text="+encodeURIComponent(m.join("\n")),"_blank")};
+document.addEventListener("lang",draw);draw();
+</script></body></html>

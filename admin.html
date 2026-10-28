@@ -1,0 +1,27 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>THARU Juice Bar</title><link rel="icon" type="image/png" href="images/logo001.png"><link rel="stylesheet" href="css/style.css"><meta name="robots" content="noindex"></head><body><header id="hd"></header><div id="bar" hidden></div><main>
+<section id="login" class="clay pad"><h2>Admin sign in</h2><form id="lf"><label>Email<input id="em" type="email" required autocomplete="username"></label><label>Password<input id="pw" type="password" required autocomplete="current-password"></label><p id="err" role="alert"></p><button class="btn">Sign in</button></form></section>
+<div id="dash" hidden>
+<section><div class="clay pad"><h2>Shop status and announcement</h2><form id="sf"><label class="chk"><input type="checkbox" id="open"> Shop is open</label><label>Announcement (English)<input id="aen"></label><label>Announcement (Sinhala)<input id="asi"></label><button class="btn">Save shop settings</button></form></div></section>
+<section><div class="clay pad"><h2 id="fh">Add menu item</h2><form id="mf"><input type="hidden" id="eid"><label>Name (English)<input id="ne" required></label><label>Name (Sinhala)<input id="ns" required></label><label>Price (Rs.)<input id="pr" type="number" min="0" required></label><label>Category<select id="ct"><option value="juice">Fresh juice</option><option value="smoothie">Smoothies</option><option value="shake">Milkshakes</option></select></label><label>Image URL (optional)<input id="im" type="url"></label><label class="chk"><input type="checkbox" id="st" checked> In stock</label><button class="btn">Save item</button><button type="button" class="clay pill" id="cl">Clear form</button></form></div></section>
+<section><h2>Menu items</h2><div id="rows"></div><button class="clay pill" id="out">Sign out</button><p id="msg" role="status"></p></section></div>
+</main><footer id="ft"></footer><script type="module">
+import{app,db}from"./js/firebase-config.js";
+import{getAuth,signInWithEmailAndPassword as si,signOut,onAuthStateChanged as oa}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import{collection,doc,addDoc,setDoc,updateDoc,deleteDoc,onSnapshot}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import{$,fmt}from"./js/app.js";
+const auth=getAuth(app);let items=[],on=false;
+const say=m=>$("#msg").textContent=m,fail=()=>say("Could not save. Check that you are signed in as the admin and that your Firestore rules allow it.");
+$("#lf").onsubmit=async e=>{e.preventDefault();try{await si(auth,$("#em").value,$("#pw").value)}catch{$("#err").textContent="Wrong email or password. Check both and try again."}};
+oa(auth,u=>{$("#login").hidden=!!u;$("#dash").hidden=!u;if(u&&!on){on=true;
+onSnapshot(doc(db,"settings","shop"),s=>{const d=s.data()||{};$("#open").checked=!!d.open;$("#aen").value=d.annEn||"";$("#asi").value=d.annSi||""});
+onSnapshot(collection(db,"menu"),s=>{items=s.docs.map(d=>({id:d.id,...d.data()}));list()})}});
+$("#out").onclick=()=>signOut(auth);
+$("#sf").onsubmit=async e=>{e.preventDefault();try{await setDoc(doc(db,"settings","shop"),{open:$("#open").checked,annEn:$("#aen").value,annSi:$("#asi").value});say("Shop settings saved.")}catch{fail()}};
+const clear=()=>{$("#mf").reset();$("#eid").value="";$("#fh").textContent="Add menu item"};$("#cl").onclick=clear;
+$("#mf").onsubmit=async e=>{e.preventDefault();const d={nameEn:$("#ne").value,nameSi:$("#ns").value,price:+$("#pr").value,cat:$("#ct").value,img:$("#im").value,inStock:$("#st").checked},id=$("#eid").value;try{id?await setDoc(doc(db,"menu",id),d):await addDoc(collection(db,"menu"),d);say("Item saved.");clear()}catch{fail()}};
+function list(){$("#rows").innerHTML=items.map(i=>`<div class="clay line"><b>${i.nameEn} / ${i.nameSi}</b><span>${fmt(i.price)}</span><div><button class="clay pill" data-e="${i.id}">Edit</button><button class="clay pill" data-s="${i.id}">${i.inStock?"Mark out of stock":"Mark in stock"}</button><button class="clay pill" data-d="${i.id}">Delete</button></div></div>`).join("")}
+document.onclick=async e=>{const b=e.target.closest("[data-e],[data-s],[data-d]");if(!b)return;const id=b.dataset.e||b.dataset.s||b.dataset.d,i=items.find(x=>x.id==id);
+try{if(b.dataset.e){$("#eid").value=id;$("#ne").value=i.nameEn;$("#ns").value=i.nameSi;$("#pr").value=i.price;$("#ct").value=i.cat;$("#im").value=i.img||"";$("#st").checked=!!i.inStock;$("#fh").textContent="Edit menu item";scrollTo(0,0)}
+else if(b.dataset.s)await updateDoc(doc(db,"menu",id),{inStock:!i.inStock});
+else if(confirm('Delete "'+i.nameEn+'"? This cannot be undone.'))await deleteDoc(doc(db,"menu",id))}catch{fail()}};
+</script></body></html>
