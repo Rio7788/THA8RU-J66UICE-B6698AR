@@ -1,9 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#fff9eb"><meta name="description" content="Secure THARU Juice Bar menu and shop status administration."><meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>Admin Panel — THARU Juice Bar</title><link rel="stylesheet" href="assets/styles.css">
-  <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script><script defer src="assets/firebase-config.js"></script><script defer src="assets/firebase-init.js"></script><script defer src="assets/app.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fff9eb">
+  <meta name="description" content="Secure THARU Juice Bar menu and shop status administration.">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Admin Panel — THARU Juice Bar</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script defer src="assets/firebase-config.js"></script>
+  <script defer src="assets/firebase-init.js"></script>
 </head>
 <body data-page="admin">
   <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
@@ -67,4 +76,69 @@
   </main>
   <footer class="site-footer"><div class="container footer-inner"><a class="brand" href="index.html"><span class="brand-mark">🍊</span><span class="brand-copy">THARU JUICE BAR<small data-i18n="brandTag">Fresh • Fruity • Feel-good</small></span></a><span>© <span id="yearNow"></span> THARU Juice Bar.</span><div class="footer-links"><a href="index.html" data-i18n="navHome">Home</a><a href="menu.html" data-i18n="navMenu">Our Menu</a></div></div></footer>
   <div class="mobile-bottom-bar"><a href="index.html"><span>⌂</span><span data-i18n="navHome">Home</span></a><a href="menu.html"><span>🥤</span><span data-i18n="navMenu">Our Menu</span></a><a href="cart.html"><span>🛒</span><span data-i18n="navCart">Cart</span></a></div><div class="toast" id="toast" role="status" aria-live="polite"></div>
-</body></html>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const emailInput = document.getElementById("adminEmail");
+      const passwordInput = document.getElementById("adminPassword");
+      const loginForm = document.getElementById("adminLoginForm");
+      const loginPanel = document.getElementById("adminLoginPanel");
+      const dashboard = document.getElementById("adminDashboard");
+      const authMessage = document.getElementById("adminAuthMessage");
+      const signOutBtn = document.getElementById("adminSignOut");
+
+      if (emailInput) emailInput.removeAttribute("disabled");
+      if (passwordInput) passwordInput.removeAttribute("disabled");
+
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          if (loginPanel) loginPanel.hidden = true;
+          if (dashboard) dashboard.hidden = false;
+          const adminIdentity = document.getElementById("adminIdentity");
+          if (adminIdentity) adminIdentity.textContent = "Logged in as: " + user.email;
+        } else {
+          if (loginPanel) loginPanel.hidden = false;
+          if (dashboard) dashboard.hidden = true;
+        }
+      });
+
+      if (loginForm) {
+        loginForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const email = emailInput.value.trim();
+          const password = passwordInput.value;
+
+          if (authMessage) {
+            authMessage.hidden = false;
+            authMessage.textContent = "Signing in...";
+            authMessage.className = "alert";
+          }
+
+          firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(() => {
+              if (authMessage) {
+                authMessage.textContent = "Successfully logged in!";
+                authMessage.className = "alert success";
+              }
+            })
+            .catch((error) => {
+              if (authMessage) {
+                authMessage.hidden = false;
+                authMessage.textContent = "Login failed: " + error.message;
+                authMessage.className = "alert error";
+              }
+            });
+        });
+      }
+
+      if (signOutBtn) {
+        signOutBtn.addEventListener("click", function () {
+          firebase.auth().signOut().then(() => {
+            window.location.reload();
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>
