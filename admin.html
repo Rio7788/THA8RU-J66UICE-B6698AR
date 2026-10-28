@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#fff9eb"><meta name="description" content="Secure THARU Juice Bar menu and shop status administration."><meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Admin Panel — THARU Juice Bar</title><link rel="stylesheet" href="assets/styles.css">
+  <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script><script defer src="assets/firebase-config.js"></script><script defer src="assets/firebase-init.js"></script><script defer src="assets/app.js"></script>
+</head>
+<body data-page="admin">
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+  <header class="site-header"><div class="container"><nav class="nav-shell glass" aria-label="Main navigation">
+    <a class="brand" href="index.html"><span class="brand-mark">🍊</span><span class="brand-copy">THARU JUICE BAR<small data-i18n="brandTag">Fresh • Fruity • Feel-good</small></span></a>
+    <div class="nav-links" id="mainNav"><a href="index.html" data-i18n="navHome">Home</a><a href="menu.html" data-i18n="navMenu">Our Menu</a><a href="index.html#about" data-i18n="navAbout">About us</a><a href="index.html#reviews" data-i18n="navReviews">Reviews</a></div>
+    <div class="nav-actions"><button class="lang-button" id="languageToggle" type="button" aria-label="Switch language">සිංහල</button><button class="icon-button" id="themeToggle" type="button" aria-label="Toggle theme" title="Toggle theme">☾</button><a class="icon-button cart-nav" href="cart.html" aria-label="Shopping cart">🛒<span class="cart-count" data-cart-count>0</span></a><button class="icon-button mobile-menu-button" id="mobileMenuToggle" type="button" aria-label="Open navigation" aria-expanded="false">☰</button></div>
+  </nav></div></header>
+  <main id="main" class="admin-page"><section class="page-hero"><div class="container"><div class="eyebrow"><span class="dot"></span><span data-i18n="adminEyebrow">Shop owner workspace</span></div><h1 data-i18n="adminTitle">Small shop. Easy controls.</h1><p class="lead" data-i18n="adminLead">Update your menu, switch shop status, and share today's special — right from your phone.</p></div></section>
+    <div class="container">
+      <section class="panel admin-login" id="adminLoginPanel">
+        <h2 data-i18n="secureAdminTitle">Secure admin sign-in</h2>
+        <div class="admin-warning" data-i18n="adminSecurityNote">Admin access is protected with Firebase Authentication and Firestore rules. A hidden URL or JavaScript password prompt would not protect your menu data.</div>
+        <div class="alert error" id="adminSetupWarning" hidden data-i18n="firebaseNotConfigured">Firebase is not configured yet. Follow README.md to connect your Firebase project first.</div>
+        <form id="adminLoginForm">
+          <div class="field"><label for="adminEmail" data-i18n="emailLabel">Admin email</label><input id="adminEmail" type="email" autocomplete="username" required maxlength="254" placeholder="owner@example.com"></div>
+          <div class="field"><label for="adminPassword" data-i18n="passwordLabel">Password</label><input id="adminPassword" type="password" autocomplete="current-password" required maxlength="128" placeholder="••••••••"></div>
+          <button class="button button-primary" type="submit" style="width:100%" data-i18n="signIn">Sign in securely</button>
+        </form>
+        <div class="alert" id="adminAuthMessage" hidden role="status"></div>
+        <p class="form-note" data-i18n="adminCreateNote">Create the admin user from Firebase Console → Authentication. This page intentionally has no public sign-up button.</p>
+      </section>
+
+      <section id="adminDashboard" hidden>
+        <div class="admin-toolbar"><div><h2 data-i18n="dashboardTitle">Shop dashboard</h2><p class="admin-auth-state" id="adminIdentity"></p></div><button class="button button-outline button-small" id="adminSignOut" type="button" data-i18n="signOut">Sign out</button></div>
+        <div class="admin-layout">
+          <div>
+            <section class="panel" style="margin-bottom:18px">
+              <h2 data-i18n="shopControls">Shop status & announcement</h2>
+              <div class="checkbox-row"><input id="shopIsOpen" type="checkbox"><label for="shopIsOpen" data-i18n="shopOpenToggle">Shop is open (show green status)</label></div>
+              <div class="field"><label for="promoEn" data-i18n="promoEnglish">Announcement (English)</label><input id="promoEn" maxlength="180" placeholder="Today's fresh special is here!"></div>
+              <div class="field"><label for="promoSi" data-i18n="promoSinhala">Announcement (Sinhala)</label><input id="promoSi" maxlength="180" placeholder="අද විශේෂ පාන වර්ගය මෙන්න!"></div>
+              <button class="button button-primary" id="saveShopSettings" type="button" style="width:100%" data-i18n="saveSettings">Save shop settings</button>
+            </section>
+            <section class="panel">
+              <div class="admin-toolbar"><h2 id="menuFormHeading" data-i18n="addMenuItem">Add menu item</h2><button class="button button-outline button-small" id="resetMenuForm" type="button" data-i18n="clearForm">Clear form</button></div>
+              <form id="menuItemForm">
+                <input type="hidden" id="itemId">
+                <div class="form-grid">
+                  <div class="field"><label for="itemNameEn" data-i18n="itemNameEnglish">Name (English) *</label><input id="itemNameEn" required maxlength="80"></div>
+                  <div class="field"><label for="itemNameSi" data-i18n="itemNameSinhala">Name (Sinhala) *</label><input id="itemNameSi" required maxlength="80"></div>
+                  <div class="field"><label for="itemCategoryEn" data-i18n="itemCategoryEnglish">Category (English) *</label><input id="itemCategoryEn" required maxlength="40" placeholder="Fresh Juice"></div>
+                  <div class="field"><label for="itemCategorySi" data-i18n="itemCategorySinhala">Category (Sinhala) *</label><input id="itemCategorySi" required maxlength="40" placeholder="නැවුම් ජූස්"></div>
+                  <div class="field"><label for="itemPrice" data-i18n="itemPrice">Price (LKR) *</label><input id="itemPrice" type="number" inputmode="decimal" min="0" max="1000000" step="1" required></div>
+                  <div class="field"><label for="itemImage" data-i18n="itemImageUrl">Image URL (HTTPS)</label><input id="itemImage" type="url" inputmode="url" maxlength="1000" placeholder="https://..."></div>
+                </div>
+                <div class="checkbox-row"><input id="itemSoldOut" type="checkbox"><label for="itemSoldOut" data-i18n="soldOutToggle">Out of stock / Sold out</label></div>
+                <div class="checkbox-row"><input id="itemActive" type="checkbox" checked><label for="itemActive" data-i18n="itemVisibleToggle">Show this item in the customer menu</label></div>
+                <button class="button button-primary" id="saveMenuItem" type="submit" style="width:100%" data-i18n="saveMenuItem">Save menu item</button>
+              </form>
+            </section>
+          </div>
+          <section class="panel">
+            <div class="admin-toolbar"><div><h2 data-i18n="currentMenu">Current menu</h2><p class="admin-auth-state" data-i18n="currentMenuHint">Edits sync to the customer menu automatically.</p></div><span class="status-pill" id="adminItemCount">0 items</span></div>
+            <div id="adminMenuList"><p class="admin-auth-state" data-i18n="menuLoadingBig">Loading menu items…</p></div>
+          </section>
+        </div>
+        <div class="alert" id="adminActionMessage" hidden role="status"></div>
+      </section>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><a class="brand" href="index.html"><span class="brand-mark">🍊</span><span class="brand-copy">THARU JUICE BAR<small data-i18n="brandTag">Fresh • Fruity • Feel-good</small></span></a><span>© <span id="yearNow"></span> THARU Juice Bar.</span><div class="footer-links"><a href="index.html" data-i18n="navHome">Home</a><a href="menu.html" data-i18n="navMenu">Our Menu</a></div></div></footer>
+  <div class="mobile-bottom-bar"><a href="index.html"><span>⌂</span><span data-i18n="navHome">Home</span></a><a href="menu.html"><span>🥤</span><span data-i18n="navMenu">Our Menu</span></a><a href="cart.html"><span>🛒</span><span data-i18n="navCart">Cart</span></a></div><div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body></html>

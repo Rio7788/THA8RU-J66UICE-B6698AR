@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.uid == 'PASTE_YOUR_ADMIN_USER_UID_HERE';
+    }
+
+    match /menuItems/{itemId} {
+      // Customers can read the public menu. Only the configured admin can modify it.
+      allow read: if true;
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasAll([
+          'nameEn', 'nameSi', 'categoryEn', 'categorySi', 'price', 'imageUrl', 'soldOut', 'active'
+        ])
+        && request.resource.data.nameEn is string
+        && request.resource.data.nameEn.size() > 0
+        && request.resource.data.nameEn.size() <= 80
+        && request.resource.data.nameSi is string
+        && request.resource.data.nameSi.size() > 0
+        && request.resource.data.nameSi.size() <= 80
+        && request.resource.data.categoryEn is string
+        && request.resource.data.categoryEn.size() > 0
+        && request.resource.data.categoryEn.size() <= 40
+        && request.resource.data.categorySi is string
+        && request.resource.data.categorySi.size() > 0
+        && request.resource.data.categorySi.size() <= 40
+        && request.resource.data.price is number
+        && request.resource.data.price >= 0
+        && request.resource.data.price <= 1000000
+        && request.resource.data.imageUrl is string
+        && request.resource.data.soldOut is bool
+        && request.resource.data.active is bool;
+      allow delete: if isAdmin();
+    }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow create, update: if isAdmin()
+        && settingId == 'shop'
+        && request.resource.data.isOpen is bool
+        && request.resource.data.promoEn is string
+        && request.resource.data.promoEn.size() <= 180
+        && request.resource.data.promoSi is string
+        && request.resource.data.promoSi.size() <= 180;
+      allow delete: if false;
+    }
+  }
+}

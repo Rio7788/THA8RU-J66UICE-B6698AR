@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#fff9eb"><meta name="description" content="Review your THARU Juice Bar cart and send an order through WhatsApp."><meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Your Cart — THARU Juice Bar</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="assets/styles.css">
+  <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script><script defer src="assets/firebase-config.js"></script><script defer src="assets/firebase-init.js"></script><script defer src="assets/app.js"></script>
+</head>
+<body data-page="cart">
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+  <header class="site-header"><div class="container"><nav class="nav-shell glass" aria-label="Main navigation">
+    <a class="brand" href="index.html"><span class="brand-mark">🍊</span><span class="brand-copy">THARU JUICE BAR<small data-i18n="brandTag">Fresh • Fruity • Feel-good</small></span></a>
+    <div class="nav-links" id="mainNav"><a href="index.html" data-i18n="navHome">Home</a><a href="menu.html" data-i18n="navMenu">Our Menu</a><a href="index.html#about" data-i18n="navAbout">About us</a><a href="index.html#reviews" data-i18n="navReviews">Reviews</a></div>
+    <div class="nav-actions"><button class="lang-button" id="languageToggle" type="button" aria-label="Switch language">සිංහල</button><button class="icon-button" id="themeToggle" type="button" aria-label="Toggle theme" title="Toggle theme">☾</button><a class="icon-button cart-nav" href="cart.html" aria-label="Shopping cart">🛒<span class="cart-count" data-cart-count>0</span></a><button class="icon-button mobile-menu-button" id="mobileMenuToggle" type="button" aria-label="Open navigation" aria-expanded="false">☰</button></div>
+  </nav></div></header>
+  <main id="main">
+    <section class="page-hero"><div class="container"><div class="eyebrow"><span class="dot"></span><span data-i18n="checkoutEyebrow">Almost time for a fresh sip</span></div><h1 data-i18n="cartTitle">Your cart, your way.</h1><p class="lead" data-i18n="cartLead">Double-check your picks, add your details, and send everything to us on WhatsApp.</p></div></section>
+    <section><div class="container cart-layout">
+      <div class="panel"><h2 data-i18n="orderSummary">Order summary</h2><div id="cartItems"><div class="empty-cart"><div class="empty-icon">🛒</div><h3 data-i18n="emptyCartTitle">Your cart is looking fresh and empty.</h3><p class="section-intro" data-i18n="emptyCartText">Head to our menu and add something delicious.</p><a class="button button-primary" href="menu.html" data-i18n="browseMenu">Browse menu ↗</a></div></div><div class="cart-totals" id="cartTotals" hidden><div class="total-row"><span data-i18n="subtotal">Subtotal</span><strong id="cartSubtotal">LKR 0</strong></div><div class="total-row"><span data-i18n="deliveryNote">Delivery</span><span data-i18n="confirmDelivery">Confirm with shop</span></div><div class="total-row total"><span data-i18n="totalLabel">Estimated subtotal</span><strong id="cartTotal">LKR 0</strong></div><p class="form-note" data-i18n="totalNote">Final delivery charges and availability are confirmed by the shop on WhatsApp.</p></div></div>
+      <div class="panel"><h2 data-i18n="customerDetails">Your details</h2><form id="checkoutForm">
+        <div class="field"><label for="customerName" data-i18n="nameLabel">Full name *</label><input id="customerName" name="customerName" required maxlength="100" autocomplete="name" data-i18n-placeholder="namePlaceholder" placeholder="Your name"></div>
+        <div class="field"><label for="customerPhone" data-i18n="phoneLabel">Phone number *</label><input id="customerPhone" name="customerPhone" type="tel" inputmode="tel" required maxlength="25" autocomplete="tel" pattern="[+0-9 ()-]{7,25}" data-i18n-placeholder="phonePlaceholder" placeholder="07X XXX XXXX"></div>
+        <div class="field"><label for="customerAddress" data-i18n="addressLabel">Delivery address *</label><textarea id="customerAddress" name="customerAddress" required maxlength="500" autocomplete="street-address" data-i18n-placeholder="addressPlaceholder" placeholder="House number, street, town"></textarea></div>
+        <div class="field"><label for="orderNotes" data-i18n="notesLabel">Order notes (optional)</label><textarea id="orderNotes" name="orderNotes" maxlength="500" data-i18n-placeholder="notesPlaceholder" placeholder="Any special instructions?"></textarea></div>
+        <button class="button button-primary" id="placeOrderButton" type="submit" style="width:100%"><span data-i18n="placeOrder">Place Order via WhatsApp</span> <span>↗</span></button>
+        <p class="form-note" data-i18n="whatsappNote">WhatsApp will open with a prepared order message. Review it and press Send to place your order.</p>
+      </form></div>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><a class="brand" href="index.html"><span class="brand-mark">🍊</span><span class="brand-copy">THARU JUICE BAR<small data-i18n="brandTag">Fresh • Fruity • Feel-good</small></span></a><span>© <span id="yearNow"></span> THARU Juice Bar. <span data-i18n="footerMade">Made fresh with care.</span></span><div class="footer-links"><a href="menu.html" data-i18n="navMenu">Our Menu</a><a href="admin.html" data-i18n="adminLink">Admin</a></div></div></footer>
+  <div class="mobile-bottom-bar"><a href="index.html"><span>⌂</span><span data-i18n="navHome">Home</span></a><a href="menu.html"><span>🥤</span><span data-i18n="navMenu">Our Menu</span></a><a class="active" href="cart.html"><span>🛒</span><span data-i18n="navCart">Cart</span></a></div><div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body></html>
