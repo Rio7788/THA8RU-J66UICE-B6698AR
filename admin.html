@@ -96,5 +96,15 @@
 
   <!-- app.js එක නිවැරදිව සම්බන්ධ කිරීම -->
   <script defer src="assets/app.js"></script>
+
+  <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+    .then(() => console.log("Service Worker registered successfully!"))
+    .catch(err => console.log("Service Worker registration failed:", err));
+}
+</script>
+
+  
 </body>
 </html>
