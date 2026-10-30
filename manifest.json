@@ -1,7 +1,7 @@
 {
   "name": "THARU Juice Bar Admin",
   "short_name": "THARU Admin",
-  "start_url": "/admin.html",
+  "start_url": "https://github.com/Rio7788/THA8RU-J66UICE-B6698AR/blob/main/admin.html",
   "display": "standalone",
   "background_color": "#fff9eb",
   "theme_color": "#174c37",
